@@ -37,9 +37,10 @@ app.get("/colleges", (req, res) => {
 }
 );
 
-app.get("/information", (req, res) => {
+app.get("/information/:id",(req, res) => {
     let arr = [
-         {
+         {  
+            id: 1,
             name : "Harshita Mishra",
             branch: "ECE" ,
             college : "MMMMUT",
@@ -50,6 +51,7 @@ app.get("/information", (req, res) => {
             }
         },
         {
+            id: 2,
             name : "Avantika Tiwari",
             branch: "ECE" ,
             college : "MMMMUT",
@@ -60,6 +62,7 @@ app.get("/information", (req, res) => {
             }
         },
           {
+            id: 3,
         name : "Astha Srivastava",
         branch: "ECE" ,
         college : "MMMMUT",
@@ -74,7 +77,7 @@ if ( arr.length >= 2)
 {
     return res.json({ data: arr , code :14});
 }
-else {;
+else {
     return res.status(400).json({errror : "Data is less than 2" , code: 18})
 }
 });
@@ -94,7 +97,7 @@ const user =friends.find((v)=>{
 if(user){
 return res.json({success: true, data: user});
     } else{
-        return res.json({success: false, error: "user with id npt found"});
+        return res.json({success: false, error: "user with id not found"});
     }
 }
     catch(error){
@@ -102,8 +105,49 @@ return res.json({success: true, data: user});
     }
 
    });
+   //New api
+   app.get("api/posts/:fid", (req, res)=>
+   {
+    try{
+    let userfid =parseInt(req.params.fid);
+  
+        let postsdata=[
+            {
+                fid: 1,
+                name: "Modiji",
+                post: "NEP",
+            },
+            {
+                fid: 2,
+                name: "Amit Shah" ,
+                post: "Namechangeofcities",
+            },
+            {
+                fid: 3 ,
+                name: "Yogiji",
+                post: "Ram Mandir",
+            },
+        ];
+        const data= postsdata.find((v)=>
+        {
+            return v.fid === userfid;
+        });
+        if(posts){
+            return res.json({success: true, data: posts});
+                } else{
+                    return res.json({success: false, error: "user with id not found"});
+                }
+            }
+                catch(error){
+                    return res.status(400).json({success: false, error: error.message});
+                }
+   });
+
      
 app.listen(8000, () => {
     console.log("Server is runnig at Port 8000");
 }
 );
+
+
+
