@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-app.get("/Posts", (req, res) => {
+/*app.get("/Posts", (req, res) => {
 return res.json({message : "Posts data is fetched successfully"});
 });
 
@@ -142,12 +142,50 @@ return res.json({success: true, data: user});
                     return res.status(400).json({success: false, error: error.message});
                 }
    });
+*/
+app.use(express.json()); //by writing this, we are preparing our server to receive data from frontend, else it will receive undefined result.
 
+app.post("/api/newuser", (req, res)=>{
+    try {
+        console.log(req.body);
+        
+        const userdata = {
+            username: req.body.name,
+            userrollno: req.body.roll,
+            userbranch: req.body.branch,
+            userbatch: req.body.batch, 
+           };
+           console.log(userdata);
+       
+        return res.json({success: true, message: "Testing submit api"});
+    } catch (error) {
+        return res.status(400).json({success: false, error: error.message});
+    }
+});
+
+app.post("/api/collegeinfo", (req, res)=>
+{
+    try {
+        console.log(req.body);
+        const updateddata ={
+            collegename: req.body.clgname,
+            collegelocation: req.body.location,
+            collegesize: req.body.size,
+            collegestatus: req.body.status,
+        };
+        console.log(updateddata);
+        return res.json({success: true, message: "Data updated"});
+    } catch (error) {
+        res.status(400).json({success: false, error: error.message });
+        
+    }
+});
+const PORT =8000;
+app.listen(PORT, ()=>{
+    console.log("Server is running at Port", PORT);
+});
      
-app.listen(8000, () => {
-    console.log("Server is runnig at Port 8000");
-}
-);
+
 
 
 
